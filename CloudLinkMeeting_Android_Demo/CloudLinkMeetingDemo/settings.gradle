@@ -1,1 +1,0 @@
-include ':app', ':cloudlinkmeeting', ':CordovaLib-release', ':plugins'
