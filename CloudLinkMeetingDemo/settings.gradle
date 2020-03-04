@@ -1,0 +1,70 @@
+include ':app'
+
+//include ':HWMCLink'
+//project(':HWMCLink').projectDir = new File(rootProject.projectDir, '../../../HWMCLink')
+//
+//include ':MobileHybrid'
+//project(':MobileHybrid').projectDir = new File(rootProject.projectDir, '../../../MobileHybrid')
+//
+//// HWMUI
+//include ':HWMMobileCommonUI'
+//project(':HWMMobileCommonUI').projectDir = new File(rootProject.projectDir, '../../../HWMUI/HWMMobileCommonUI')
+//
+//include ':HWMMobileConfUI'
+//project(':HWMMobileConfUI').projectDir = new File(rootProject.projectDir, '../../../HWMUI/HWMMobileConfUI')
+//
+//// HWMBiz
+//include ':HWMFramework'
+//project(':HWMFramework').projectDir = new File(rootProject.projectDir, '../../../HWMBiz/HWMFramework')
+//
+//include ':HWMConf'
+//project(':HWMConf').projectDir = new File(rootProject.projectDir, '../../../HWMBiz/HWMConf')
+//
+//// HWMMiddleware
+//include ':HWMFoundation'
+//project(':HWMFoundation').projectDir = new File(rootProject.projectDir, '../../../HWMMiddleware/HWMFoundation')
+//
+//include ':HWMQRCode'
+//project(':HWMQRCode').projectDir = new File(rootProject.projectDir, '../../../HWMMiddleware/HWMQRCode')
+//
+//include ':HWMHTTP'
+//project(':HWMHTTP').projectDir = new File(rootProject.projectDir, '../../../HWMMiddleware/HWMHTTP')
+//
+//include ':HWMThreadPool'
+//project(':HWMThreadPool').projectDir = new File(rootProject.projectDir, '../../../HWMMiddleware/HWMThreadPool')
+//
+//include ':HWMTup'
+//project(':HWMTup').projectDir = new File(rootProject.projectDir, '../../../HWMMiddleware/HWMTup')
+//
+//include ':HWMLogger'
+//project(':HWMLogger').projectDir = new File(rootProject.projectDir, '../../../HWMMiddleware/HWMLogger')
+//
+//include ':HWMDB'
+//project(':HWMDB').projectDir = new File(rootProject.projectDir, '../../../HWMMiddleware/HWMDB')
+//
+//include ':HWMSecurity'
+//project(':HWMSecurity').projectDir = new File(rootProject.projectDir, '../../../HWMMiddleware/HWMSecurity')
+//
+//include ':HWMPush'
+//project(':HWMPush').projectDir = new File(rootProject.projectDir, '../../../HWMBiz/HWMPush')
+//
+//include ':HWMBizBase'
+//project(':HWMBizBase').projectDir = new File(rootProject.projectDir, '../../../HWMBiz/HWMBizBase')
+//
+//include ':HWMContact'
+//project(':HWMContact').projectDir = new File(rootProject.projectDir, '../../../HWMBiz/HWMContact')
+//
+//include ':HWMIm'
+//project(':HWMIm').projectDir = new File(rootProject.projectDir, '../../../HWMBiz/HWMIm')
+//
+//include ':HWMLogin'
+//project(':HWMLogin').projectDir = new File(rootProject.projectDir, '../../../HWMBiz/HWMLogin')
+//
+//include ':HWMSetting'
+//project(':HWMSetting').projectDir = new File(rootProject.projectDir, '../../../HWMBiz/HWMSetting')
+//
+//include ':HWMUisdk'
+//project(':HWMUisdk').projectDir = new File(rootProject.projectDir, '../../../HWMUisdk')
+//
+//include ':HWMPermission'
+//project(':HWMPermission').projectDir = new File(rootProject.projectDir, '../../../HWMMiddleware/HWMPermission')
