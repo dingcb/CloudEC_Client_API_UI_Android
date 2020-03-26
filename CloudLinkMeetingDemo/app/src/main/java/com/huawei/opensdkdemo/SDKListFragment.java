@@ -64,7 +64,7 @@ public class SDKListFragment extends BaseListFragment {
         if (getActivity() != null){
             ((DemoActivity)getActivity()).showLoading();
         }
-        HWMSdk.getOpenApi(getActivity()).logout(new HwmCallback<LoginCompletedResult>() {
+        HWMSdk.getOpenApi(getActivity().getApplication()).logout(new HwmCallback<LoginCompletedResult>() {
             @Override
             public void onSuccess(LoginCompletedResult result) {
                 if (getActivity() != null){

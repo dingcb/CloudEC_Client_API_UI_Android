@@ -54,7 +54,7 @@ public class CallFragment extends BaseDialogFragment {
                 .setAccount(account)
                 .setCalleeUuid(accountUuid)
                 .setVideo(isVideo);
-        HWMSdk.getOpenApi(getActivity()).startCall(callParam, new HwmCallback<Void>() {
+        HWMSdk.getOpenApi(getActivity().getApplication()).startCall(callParam, new HwmCallback<Void>() {
             @Override
             public void onSuccess(Void result) {
                 dismissLoading();

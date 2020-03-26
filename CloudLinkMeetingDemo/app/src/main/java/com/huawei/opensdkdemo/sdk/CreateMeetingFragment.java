@@ -96,14 +96,14 @@ public class CreateMeetingFragment extends BaseDialogFragment {
                     .setConfType(confType)
                     .setNeedPassword(needPassword);
 //                    .setMembers(members);
-            HWMSdk.getOpenApi(getActivity()).createConf(createConfParam, this.completeHandler);
+            HWMSdk.getOpenApi(getActivity().getApplication()).createConf(createConfParam, this.completeHandler);
         }else {
             showLoading();
             CreateConfParam createConfParam = new CreateConfParam()
                     .setSubject(subject)
                     .setConfType(confType)
                     .setNeedPassword(needPassword);
-            HWMSdk.getOpenApi(getActivity()).createConf(createConfParam, this.completeHandler);
+            HWMSdk.getOpenApi(getActivity().getApplication()).createConf(createConfParam, this.completeHandler);
         }
     }
 

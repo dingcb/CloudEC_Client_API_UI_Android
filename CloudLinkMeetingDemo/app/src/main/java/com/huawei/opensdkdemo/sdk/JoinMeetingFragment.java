@@ -81,7 +81,7 @@ public class JoinMeetingFragment extends BaseDialogFragment {
                 .setNickname(nickName)
                 .setCameraOn(true)
                 .setMicOn(true);
-        HWMSdk.getOpenApi(getActivity()).joinConf(joinConfParam, new HwmCallback<Void>() {
+        HWMSdk.getOpenApi(getActivity().getApplication()).joinConf(joinConfParam, new HwmCallback<Void>() {
             @Override
             public void onSuccess(Void ret) {
                 dismissLoading();
@@ -140,7 +140,7 @@ public class JoinMeetingFragment extends BaseDialogFragment {
                                     .getText().toString())
                             .setCameraOn(true)
                             .setMicOn(true);
-                    HWMSdk.getOpenApi(getActivity()).joinConf(joinConfParam, new HwmCallback<Void>() {
+                    HWMSdk.getOpenApi(getActivity().getApplication()).joinConf(joinConfParam, new HwmCallback<Void>() {
                         @Override
                         public void onSuccess(Void ret) {
                             dismissLoading();

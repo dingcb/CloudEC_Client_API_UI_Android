@@ -13,6 +13,7 @@ import com.huawei.cloudlink.openapi.OpenSDKConfig;
 import com.huawei.cloudlink.openapi.api.CLMNotifyHandler;
 import com.huawei.hwmbiz.eventbus.KickOutState;
 import com.huawei.hwmconf.sdk.model.call.entity.CallInfo;
+import com.huawei.hwmconf.sdk.model.conf.entity.ConfInfo;
 
 public class DemoApplication extends Application {
 
@@ -39,6 +40,11 @@ public class DemoApplication extends Application {
         @Override
         public void onCallEnded(CallInfo callInfo) {
             Log.i(TAG, "呼叫结束了");
+        }
+
+        @Override
+        public void onConfDetailNotify(ConfInfo confInfo) {
+
         }
 
         /**

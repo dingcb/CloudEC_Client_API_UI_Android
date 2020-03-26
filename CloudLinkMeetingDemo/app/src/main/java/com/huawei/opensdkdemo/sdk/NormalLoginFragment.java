@@ -51,7 +51,7 @@ public class NormalLoginFragment extends BaseDialogFragment {
             password =  passwordView.getHint().toString();
         }
         showLoading();
-        HWMSdk.getOpenApi(getActivity()).login(account, password, new HwmCallback<LoginResult>() {
+        HWMSdk.getOpenApi(getActivity().getApplication()).login(account, password, new HwmCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 dismissLoading();
