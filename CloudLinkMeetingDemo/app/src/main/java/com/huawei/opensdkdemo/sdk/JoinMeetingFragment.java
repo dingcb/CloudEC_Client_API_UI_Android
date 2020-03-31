@@ -15,12 +15,16 @@ import android.widget.TextView;
 
 import com.huawei.cloudlink.openapi.HWMSdk;
 import com.huawei.cloudlink.openapi.api.param.JoinConfParam;
+import com.huawei.conflogic.HwmConfAdvanceSet;
+import com.huawei.conflogic.HwmOneKeyEnterConfParamEx;
 import com.huawei.hwmcommonui.ui.popup.dialog.base.ButtonParams;
 import com.huawei.hwmcommonui.ui.popup.dialog.edit.EditDialog;
 import com.huawei.hwmcommonui.ui.popup.dialog.edit.EditDialogBuilder;
 import com.huawei.hwmconf.presentation.error.ErrorMessageFactory;
 import com.huawei.hwmconf.presentation.interactor.JoinConfInteractor;
 import com.huawei.hwmconf.presentation.interactor.JoinConfInteractorImpl;
+import com.huawei.hwmconf.presentation.router.ConfRouter;
+import com.huawei.hwmconf.sdk.HWMConf;
 import com.huawei.hwmconf.sdk.SimpleConfListener;
 import com.huawei.hwmconf.sdk.model.conf.entity.JoinConfResult;
 import com.huawei.hwmconf.sdk.util.Utils;
@@ -36,6 +40,11 @@ public class JoinMeetingFragment extends BaseDialogFragment {
     public final static String TAG = "JoinMeetingFragment";
     View rootView;
     private JoinConfInteractor mJoinConfInteractor;
+
+    //是否打开摄像头
+    boolean mIsCameraOn = true;
+    //是否打开麦克风
+    boolean mIsMicOn = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,8 +88,8 @@ public class JoinMeetingFragment extends BaseDialogFragment {
         JoinConfParam joinConfParam = new JoinConfParam()
                 .setConfId(mId)
                 .setNickname(nickName)
-                .setCameraOn(true)
-                .setMicOn(true);
+                .setCameraOn(mIsCameraOn)
+                .setMicOn(mIsMicOn);
         HWMSdk.getOpenApi(getActivity().getApplication()).joinConf(joinConfParam, new HwmCallback<Void>() {
             @Override
             public void onSuccess(Void ret) {
@@ -132,18 +141,22 @@ public class JoinMeetingFragment extends BaseDialogFragment {
                 },
                 (dialog, button, i) -> {
 
-                    JoinConfParam joinConfParam = new JoinConfParam()
-                            .setConfId(joinConfResult.getConfId())
-//                            .setAccessCode(joinConfResult.getAccessCode())
-                            .setPassword(((EditDialog) dialog).getInput())
-                            .setNickname(((EditText)rootView.findViewById(R.id.meeting_nickname))
-                                    .getText().toString())
-                            .setCameraOn(true)
-                            .setMicOn(true);
-                    HWMSdk.getOpenApi(getActivity().getApplication()).joinConf(joinConfParam, new HwmCallback<Void>() {
+                    HwmOneKeyEnterConfParamEx oneKeyEnterConfParamEx = new HwmOneKeyEnterConfParamEx();
+                    HwmConfAdvanceSet confAdvanceSet = new HwmConfAdvanceSet();
+                    confAdvanceSet.setIsOpenCam(mIsCameraOn ? 1 : 0);//设置是否打开摄像头，1为打开
+                    confAdvanceSet.setIsOpenMic(mIsMicOn ? 1 : 0);//设置是否打开麦克风，1为打开
+                    oneKeyEnterConfParamEx.setAdvanceSet(confAdvanceSet);
+                    oneKeyEnterConfParamEx.setConfAccessNum(joinConfResult.getAccessCode());//设置会议接入号
+                    oneKeyEnterConfParamEx.setConfId(joinConfResult.getConfId());
+                    oneKeyEnterConfParamEx.setConfPwd(((EditDialog) dialog).getInput());
+                    oneKeyEnterConfParamEx.setInviteMode(0);
+                    oneKeyEnterConfParamEx.setIsVideoConf(1);//设置是否视频会议, 0 则是音频会议
+
+                    HWMConf.getInstance().getConfSdkApi().getConfApi().joinConfOneKey(oneKeyEnterConfParamEx, new HwmCallback<Integer>() {
                         @Override
-                        public void onSuccess(Void ret) {
+                        public void onSuccess(Integer integer) {
                             dismissLoading();
+                            ConfRouter.actionJoinConfById(joinConfResult.getConfId(), mIsCameraOn, mIsMicOn);
                         }
 
                         @Override
@@ -158,7 +171,6 @@ public class JoinMeetingFragment extends BaseDialogFragment {
                     });
                     dialog.dismiss();
                 });
-
     }
 
 }
