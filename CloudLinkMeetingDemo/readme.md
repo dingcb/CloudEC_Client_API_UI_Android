@@ -67,7 +67,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 ```
 
-5. sdk初始化
+5. sdk初始化, 注意要放在application的oncreate里，尽量时许提前，sdk内部通过监听activity的生命获取当前activity，
+跳转界面，否则可能出现界面无法跳转的情况
 ```
 OpenSDKConfig sdkConfig = new OpenSDKConfig(this)
                 .setAppId("openSDKDemo")
@@ -192,7 +193,7 @@ OpenSDKConfig sdkConfig = new OpenSDKConfig(this)
 # FAQ
 1. 是否支持64为的so库？
 ```
-    64为的库so库正在测试中，暂时不支持，将在下个版本中支持，注意build.gradle中的配置
+    64位的so库正在测试中，暂时不支持，将在下个版本中支持，注意build.gradle中的配置
     ndk {
         abiFilters "armeabi-v7a"
     }
