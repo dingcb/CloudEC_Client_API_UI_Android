@@ -18,7 +18,7 @@
     implementation rootProject.ext.dependencies["autodispose-lifecycle"]
     implementation rootProject.ext.dependencies["lifecycle-extensions"]
 ```
-3. 参考config.gradle, 在app/build.gradle添加开源包依赖
+3. 参考config.gradle, 在app/build.gradle添加会议sdk依赖
 
 ```
     //sdk 编译的aar
