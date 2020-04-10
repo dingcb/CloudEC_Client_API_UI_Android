@@ -21,24 +21,26 @@
 3. 参考config.gradle, 在app/build.gradle添加开源包依赖
 
 ```
-//sdk 编译的aar
-    implementation(name : 'HWMBizBase-release', ext: 'aar')
-    implementation(name : 'HWMConf-release', ext: 'aar')
-    implementation(name : 'HWMDB-release', ext: 'aar')
-    implementation(name : 'HWMFoundation-release', ext: 'aar')
-    implementation(name : 'HWMFramework-release', ext: 'aar')
-    implementation(name : 'HWMHTTP-release', ext: 'aar')
-    implementation(name : 'HWMLogger-release', ext: 'aar')
-    implementation(name : 'HWMLogin-release', ext: 'aar')
-    implementation(name : 'HWMMobileCommonUI-release', ext: 'aar')
-    implementation(name : 'HWMMobileConfUI-release', ext: 'aar')
-    implementation(name : 'HWMPermission-release', ext: 'aar')
-    implementation(name : 'HWMSecurity-release', ext: 'aar')
-    implementation(name : 'HWMSetting-release', ext: 'aar')
-    implementation(name : 'HWMThreadPool-release', ext: 'aar')
-    implementation(name : 'HWMTup-release', ext: 'aar')
-    implementation(name : 'HWMContact-release', ext: 'aar')
-    implementation(name : 'HWMUisdk-release', ext: 'aar')
+    //sdk 编译的aar
+    implementation(name: 'HWMBizBase-release', ext: 'aar')
+    implementation(name: 'HWMConf-release', ext: 'aar')
+    implementation(name: 'HWMDB-release', ext: 'aar')
+    implementation(name: 'HWMFoundation-release', ext: 'aar')
+    implementation(name: 'HWMFramework-release', ext: 'aar')
+    implementation(name: 'HWMHTTP-release', ext: 'aar')
+    implementation(name: 'HWMLogger-release', ext: 'aar')
+    implementation(name: 'HWMLogin-release', ext: 'aar')
+    implementation(name: 'HWMMobileCommonUI-release', ext: 'aar')
+    implementation(name: 'HWMMobileConfUI-release', ext: 'aar')
+    implementation(name: 'HWMPermission-release', ext: 'aar')
+    implementation(name: 'HWMSecurity-release', ext: 'aar')
+    implementation(name: 'HWMSetting-release', ext: 'aar')
+    implementation(name: 'HWMThreadPool-release', ext: 'aar')
+    implementation(name: 'HWMTup-release', ext: 'aar')
+    implementation(name: 'HWMContact-release', ext: 'aar')
+    implementation(name: 'HWMUisdk-release', ext: 'aar')
+    implementation(name: 'MobileHybrid-release', ext: 'aar')
+    implementation(name: 'HWMClink-release', ext: 'aar')
 ```
 
 4. 添依赖的一些权限：
