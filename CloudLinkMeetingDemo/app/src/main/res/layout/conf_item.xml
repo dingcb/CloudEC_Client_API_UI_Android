@@ -1,0 +1,115 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/conf_dp_72"
+    android:background="@drawable/conf_background_five"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:id="@+id/demo_conf_item_time_layout"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="@dimen/conf_dp_18"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/demo_conf_start_time_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="@dimen/conf_dp_54">
+            <TextView
+                android:id="@+id/demo_conf_item_start_time_text"
+                android:layout_width="@dimen/conf_dp_36"
+                android:layout_height="@dimen/conf_dp_18"
+                android:gravity="center"
+                android:textSize="@dimen/conf_sp_12"
+                android:textColor="@color/conf_color_normal_three"/>
+
+            <TextView
+                android:id="@+id/demo_conf_item_start_time_text_super"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/conf_dp_18"
+                android:gravity="center"
+                android:textSize="@dimen/conf_sp_12"
+                android:textColor="@color/conf_color_normal_three"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/demo_conf_divide_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="@dimen/conf_dp_36"
+            android:layout_marginTop="@dimen/conf_dp_3"
+            android:gravity="center">
+            <LinearLayout
+                android:layout_width="@dimen/conf_dp_1"
+                android:layout_height="@dimen/conf_dp_6"
+                android:background="@color/conf_color_normal_three">
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/demo_conf_end_time_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="@dimen/conf_dp_54">
+
+            <TextView
+                android:id="@+id/demo_conf_item_end_time_text"
+                android:layout_width="@dimen/conf_dp_36"
+                android:layout_height="@dimen/conf_dp_18"
+                android:gravity="center"
+                android:textSize="@dimen/conf_sp_12"
+                android:textColor="@color/conf_color_normal_three"
+                android:layout_marginTop="@dimen/conf_dp_3"/>
+
+            <TextView
+                android:id="@+id/demo_conf_item_end_time_text_super"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/conf_dp_18"
+                android:gravity="center"
+                android:textSize="@dimen/conf_sp_12"
+                android:textColor="@color/conf_color_normal_three"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/conf_dp_210"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toEndOf="@+id/demo_conf_item_time_layout"
+        android:layout_marginStart="@dimen/conf_dp_16"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/demo_conf_item_conf_subject_text"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/conf_dp_24"
+            android:textColor="@color/conf_color_normal_two"
+            android:textSize="@dimen/conf_sp_16"
+            android:singleLine="true"
+            android:ellipsize="middle"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/conf_dp_20"
+            android:layout_marginTop="@dimen/conf_dp_3">
+
+            <ImageView
+                android:id="@+id/demo_conf_item_media_type_img"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/demo_conf_item_chairman_text"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/conf_dp_20"
+                android:textSize="@dimen/conf_sp_14"
+                android:textColor="@color/conf_color_normal_three"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

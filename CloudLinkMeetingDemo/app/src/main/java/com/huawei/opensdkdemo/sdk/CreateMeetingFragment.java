@@ -109,15 +109,15 @@ public class CreateMeetingFragment extends BaseDialogFragment {
 
     private HwmCallback<ConfInfo> completeHandler = new HwmCallback<ConfInfo>() {
         @Override
-        public void onSuccess(ConfInfo confInfo) {
+        public void onSuccess(ConfInfo result) {
             dismissLoading();
-            DemoUtil.showToast(getContext(), "创建会议成功: 会议id：" + confInfo.getConfId() +
-                    ";会议密码：" + confInfo.getConfPwd());
+            DemoUtil.showToast(getContext(), "创建会议成功");
         }
 
         @Override
         public void onFailed(int retCode, String desc) {
             dismissLoading();
+            dismiss();
             String err = ErrorMessageFactory.create(Utils.getApp(), retCode);
             if (TextUtils.isEmpty(err)) {
                 err = Utils.getApp().getString(com.huawei.hwmmobileconfui.R.string.conf_create_error);

@@ -2,7 +2,6 @@
 1. 将libs下的aar包拷贝到你的工程目录
 2. 参考config.gradle, 在app/build.gradle添加开源包依赖
 
-
 ```
     //sdk 用到的一些三方框架
     api rootProject.ext.dependencies["palette-v7"]
@@ -41,7 +40,32 @@
     implementation(name : 'HWMContact-release', ext: 'aar')
     implementation(name : 'HWMUisdk-release', ext: 'aar')
 ```
-4. sdk初始化
+
+4. 添依赖的一些权限：
+```
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!--会议中会启动前台服务器保活-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+```
+
+5. sdk初始化
 ```
 OpenSDKConfig sdkConfig = new OpenSDKConfig(this)
                 .setAppId("openSDKDemo")
@@ -53,7 +77,11 @@ OpenSDKConfig sdkConfig = new OpenSDKConfig(this)
 # 华为会议接口说明
 1. 登录
 ```
-        HWMSdk.getOpenApi(getActivity()).login(account, password, new HwmCallback<LoginResult>() {
+        LoginParam loginParam = new LoginParam()
+                .setLoginAuthType(LoginAuthType.Account_And_Password)
+                .setAccount(account)
+                .setPassword(password);
+        HWMSdk.getOpenApi(getActivity()).login(loginParam, new HwmCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 dismissLoading();
@@ -157,3 +185,46 @@ OpenSDKConfig sdkConfig = new OpenSDKConfig(this)
             }
         });
 ```
+
+
+# FAQ
+1. 是否支持64为的so库？
+```
+    64为的库so库正在测试中，暂时不支持，将在下个版本中支持，注意build.gradle中的配置
+    ndk {
+        abiFilters "armeabi-v7a"
+    }
+```
+
+
+2. 如果不想使用我们的im能力，可以在application project的build.gradle里增加以下配置，去掉im相关的so库，可以减少apk大小，
+打包成apk后，可以解压查看下这些so是否已经删除
+
+```
+android {
+        packagingOptions {
+            exclude '**/libtup_im_basemessage.so'
+            exclude '**/libtup_im_clib.so'
+            exclude '**/libtup_im_clientimpl.so'
+            exclude '**/libtup_im_core.so'
+            exclude '**/libtup_im_ecsimp.so'
+            exclude '**/libtup_im_eserverimpl.so'
+            exclude '**/libtup_im_json.so'
+            exclude '**/libtup_im_message.so'
+            exclude '**/libtup_im_service.so'
+            exclude '**/libtup_im_util.so'
+        }
+    }
+```
+
+3. 如果不想使用我们数据会议能力（共享，标注），可以在application project的build.gradle里增加以下配置，
+去掉数据会议相关的so库，可以减少库大小；打包成apk后，可以解压查看下这些libTupConf.so是否已经删除
+
+```
+android {
+        packagingOptions {
+            excludes += ['**/libTupConf.so']
+        }
+    }
+```
+

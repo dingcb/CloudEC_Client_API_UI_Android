@@ -11,6 +11,7 @@ import com.huawei.opensdkdemo.sdk.BaseDialogFragment;
 import com.huawei.opensdkdemo.sdk.CallFragment;
 import com.huawei.opensdkdemo.sdk.CreateMeetingFragment;
 import com.huawei.opensdkdemo.sdk.JoinMeetingFragment;
+import com.huawei.opensdkdemo.sdk.ListMeetingFragment;
 import com.huawei.opensdkdemo.sdk.NormalLoginFragment;
 import com.huawei.opensdkdemo.sdk.SSOLoginFragment;
 
@@ -22,13 +23,14 @@ import loginlogic.LoginCompletedResult;
 
 public class SDKListFragment extends BaseListFragment {
     public final static String TAG = "SDKListFragment";
-    private List<String> titles = Arrays.asList("登录","SSO登录","创建会议","加入会议","呼叫","登出");
+    private List<String> titles = Arrays.asList("登录","SSO登录","创建会议","加入会议","呼叫","会议列表","登出");
     private List<BaseDialogFragment> fragments = Arrays.asList(
             new NormalLoginFragment(),
             new SSOLoginFragment(),
             new CreateMeetingFragment(),
             new JoinMeetingFragment(),
             new CallFragment(),
+            new ListMeetingFragment(),
             null);
     @Override
     public List<ApiPageModel> getItems() {

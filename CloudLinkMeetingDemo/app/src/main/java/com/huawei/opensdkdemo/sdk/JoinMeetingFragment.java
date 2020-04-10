@@ -3,60 +3,38 @@ package com.huawei.opensdkdemo.sdk;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.huawei.cloudlink.openapi.HWMSdk;
 import com.huawei.cloudlink.openapi.api.param.JoinConfParam;
-import com.huawei.conflogic.HwmConfAdvanceSet;
-import com.huawei.conflogic.HwmOneKeyEnterConfParamEx;
-import com.huawei.hwmcommonui.ui.popup.dialog.base.ButtonParams;
-import com.huawei.hwmcommonui.ui.popup.dialog.edit.EditDialog;
-import com.huawei.hwmcommonui.ui.popup.dialog.edit.EditDialogBuilder;
 import com.huawei.hwmconf.presentation.error.ErrorMessageFactory;
 import com.huawei.hwmconf.presentation.interactor.JoinConfInteractor;
 import com.huawei.hwmconf.presentation.interactor.JoinConfInteractorImpl;
-import com.huawei.hwmconf.presentation.router.ConfRouter;
-import com.huawei.hwmconf.sdk.HWMConf;
-import com.huawei.hwmconf.sdk.SimpleConfListener;
-import com.huawei.hwmconf.sdk.model.conf.entity.JoinConfResult;
 import com.huawei.hwmconf.sdk.util.Utils;
 import com.huawei.hwmfoundation.callback.HwmCallback;
-import com.huawei.hwmlogger.HCLog;
 import com.huawei.opensdkdemo.DemoUtil;
 import com.huawei.opensdkdemo.R;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class JoinMeetingFragment extends BaseDialogFragment {
     public final static String TAG = "JoinMeetingFragment";
     View rootView;
     private JoinConfInteractor mJoinConfInteractor;
 
-    //是否打开摄像头
-    boolean mIsCameraOn = true;
-    //是否打开麦克风
-    boolean mIsMicOn = true;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mJoinConfInteractor = new JoinConfInteractorImpl();
-        mJoinConfInteractor.getConfApi().addListener(mSimpleConfListener);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mJoinConfInteractor.getConfApi().removeListener(mSimpleConfListener);
     }
 
     @Override
@@ -77,8 +55,10 @@ public class JoinMeetingFragment extends BaseDialogFragment {
     private void joinConf(){
         TextView idView = rootView.findViewById(R.id.meeting_id);
         TextView name = rootView.findViewById(R.id.meeting_nickname);
+        TextView passwordView = rootView.findViewById(R.id.meeting_pass);
         String mId = idView.getText().toString();
         String nickName = name.getText().toString();
+        String password = passwordView.getText().toString();
         if (TextUtils.isEmpty(mId)){
             DemoUtil.showToast(getContext(),"会议ID不能为空");
             return;
@@ -87,18 +67,21 @@ public class JoinMeetingFragment extends BaseDialogFragment {
 
         JoinConfParam joinConfParam = new JoinConfParam()
                 .setConfId(mId)
+                .setPassword(password)
                 .setNickname(nickName)
-                .setCameraOn(mIsCameraOn)
-                .setMicOn(mIsMicOn);
+                .setCameraOn(true)
+                .setMicOn(true);
         HWMSdk.getOpenApi(getActivity().getApplication()).joinConf(joinConfParam, new HwmCallback<Void>() {
             @Override
             public void onSuccess(Void ret) {
                 dismissLoading();
+                dismiss();
             }
 
             @Override
             public void onFailed(int retCode, String desc) {
                 dismissLoading();
+                dismiss();
                 String err = ErrorMessageFactory.create(Utils.getApp(), retCode);
                 if (TextUtils.isEmpty(err)) {
                     err = Utils.getApp().getString(com.huawei.hwmmobileconfui.R.string.conf_join_fail_tip);
@@ -107,70 +90,4 @@ public class JoinMeetingFragment extends BaseDialogFragment {
             }
         });
     }
-
-    private SimpleConfListener mSimpleConfListener = new SimpleConfListener() {
-        @Override
-        public void onJoinConfNeedPwdNotify(JoinConfResult joinConfResult) {
-            Observable.just(joinConfResult)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(joinConfResult1 -> handleJoinConfNeedPwdNotify(joinConfResult1));
-
-        }
-    };
-
-    public void showPwdEditDialog(String title, String hint, ButtonParams.OnDialogButtonClick cancelListener, ButtonParams.OnDialogButtonClick sureListener) {
-        new EditDialogBuilder(getActivity())
-                .setTitle(title)
-                .setHint(hint)
-                .setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD)
-                .addAction(getString(com.huawei.hwmmobileconfui.R.string.conf_dialog_cancle_btn_str), cancelListener)
-                .addAction(getString(com.huawei.hwmmobileconfui.R.string.conf_dialog_confirm_btn_str), sureListener)
-                .show();
-    }
-
-    private void handleJoinConfNeedPwdNotify(JoinConfResult joinConfResult) {
-        HCLog.i(TAG, " handleJoinConfNeedPwdNotify ");
-        String title = Utils.getApp().getString(com.huawei.hwmmobileconfui.R.string.conf_join_input_pwd_title);
-        String hint = Utils.getApp().getString(com.huawei.hwmmobileconfui.R.string.conf_join_input_pwd_hint);
-        dismissLoading();
-        showPwdEditDialog(
-                title,
-                hint,
-                (dialog, button, i) -> {
-                    dialog.dismiss();
-                },
-                (dialog, button, i) -> {
-
-                    HwmOneKeyEnterConfParamEx oneKeyEnterConfParamEx = new HwmOneKeyEnterConfParamEx();
-                    HwmConfAdvanceSet confAdvanceSet = new HwmConfAdvanceSet();
-                    confAdvanceSet.setIsOpenCam(mIsCameraOn ? 1 : 0);//设置是否打开摄像头，1为打开
-                    confAdvanceSet.setIsOpenMic(mIsMicOn ? 1 : 0);//设置是否打开麦克风，1为打开
-                    oneKeyEnterConfParamEx.setAdvanceSet(confAdvanceSet);
-                    oneKeyEnterConfParamEx.setConfAccessNum(joinConfResult.getAccessCode());//设置会议接入号
-                    oneKeyEnterConfParamEx.setConfId(joinConfResult.getConfId());
-                    oneKeyEnterConfParamEx.setConfPwd(((EditDialog) dialog).getInput());
-                    oneKeyEnterConfParamEx.setInviteMode(0);
-                    oneKeyEnterConfParamEx.setIsVideoConf(1);//设置是否视频会议, 0 则是音频会议
-
-                    HWMConf.getInstance().getConfSdkApi().getConfApi().joinConfOneKey(oneKeyEnterConfParamEx, new HwmCallback<Integer>() {
-                        @Override
-                        public void onSuccess(Integer integer) {
-                            dismissLoading();
-                            ConfRouter.actionJoinConfById(joinConfResult.getConfId(), mIsCameraOn, mIsMicOn);
-                        }
-
-                        @Override
-                        public void onFailed(int retCode, String desc) {
-                            dismissLoading();
-                            String err = ErrorMessageFactory.create(Utils.getApp(), retCode);
-                            if (TextUtils.isEmpty(err)) {
-                                err = Utils.getApp().getString(com.huawei.hwmmobileconfui.R.string.conf_join_fail_tip);
-                            }
-                            DemoUtil.showToast(getContext(), "加入会议失败: " + err);
-                        }
-                    });
-                    dialog.dismiss();
-                });
-    }
-
 }

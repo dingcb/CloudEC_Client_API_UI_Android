@@ -1,5 +1,5 @@
 package com.huawei.opensdkdemo;
-import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
@@ -15,13 +15,14 @@ import android.view.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DemoActivity extends FragmentActivity{
+public class DemoActivity extends FragmentActivity {
     private final String TAG = "DemoActivity";
     private AlertDialog alertDialog;
     TabLayout tabLayout;
     ViewPager viewPager;
     List<Fragment> fragments = new ArrayList<>();
     List<String> titles = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +54,9 @@ public class DemoActivity extends FragmentActivity{
         });
         tabLayout.setupWithViewPager(viewPager);
     }
-    public void showLoading(){
-        if (alertDialog == null){
+
+    public void showLoading() {
+        if (alertDialog == null) {
             alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
             alertDialog.setCancelable(false);
@@ -72,7 +74,8 @@ public class DemoActivity extends FragmentActivity{
             alertDialog.setContentView(R.layout.loading_alert);
         }
     }
-    public void dismissLoading(){
+
+    public void dismissLoading() {
         if (null != alertDialog && alertDialog.isShowing()) {
             if (!isFinishing()) {
                 alertDialog.dismiss();

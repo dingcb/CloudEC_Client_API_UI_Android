@@ -13,7 +13,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.huawei.cloudlink.openapi.HWMSdk;
-import com.huawei.cloudlink.openapi.api.param.CLMResult;
 import com.huawei.cloudlink.openapi.api.param.CallParam;
 import com.huawei.hwmfoundation.callback.HwmCallback;
 import com.huawei.opensdkdemo.DemoUtil;
@@ -36,7 +35,8 @@ public class CallFragment extends BaseDialogFragment {
         });
         return rootView;
     }
-    private void startCall(){
+
+    private void startCall() {
         TextView numberView = rootView.findViewById(R.id.call_number);
         String number = numberView.getText().toString();
         TextView accountView = rootView.findViewById(R.id.call_account);
@@ -45,7 +45,7 @@ public class CallFragment extends BaseDialogFragment {
         String accountUuid = accountUuidView.getText().toString();
         RadioButton audioBtn = rootView.findViewById(R.id.radio_audio);
         boolean isVideo = !audioBtn.isChecked();
-        if (TextUtils.isEmpty(number) && TextUtils.isEmpty(account)){
+        if (TextUtils.isEmpty(number) && TextUtils.isEmpty(account)) {
             DemoUtil.showToast(getContext(), "account and number require");
         }
         showLoading();
@@ -58,12 +58,13 @@ public class CallFragment extends BaseDialogFragment {
             @Override
             public void onSuccess(Void result) {
                 dismissLoading();
-                Log.i(TAG,"call success");
+                dismiss();
+                Log.i(TAG, "call success");
             }
 
             @Override
             public void onFailed(int retCode, String desc) {
-                DemoUtil.showToast(getContext(), "呼叫失败："+ retCode + ", desc: " + desc);
+                DemoUtil.showToast(getContext(), "呼叫失败：" + retCode + ", desc: " + desc);
             }
         });
 

@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.huawei.cloudlink.openapi.HWMSdk;
+import com.huawei.cloudlink.openapi.api.param.LoginAuthType;
+import com.huawei.cloudlink.openapi.api.param.LoginParam;
 import com.huawei.hwmbiz.HWMBizSdk;
 import com.huawei.hwmbiz.eventbus.LoginResult;
 import com.huawei.hwmbiz.exception.Error;
@@ -23,39 +25,44 @@ import com.huawei.opensdkdemo.R;
 public class NormalLoginFragment extends BaseDialogFragment {
     public final static String TAG = "NormalLoginFragment";
     View rootView;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         rootView = inflater.inflate(R.layout.sdk_normal_login, container, false);
 
         Button joinBtn = rootView.findViewById(R.id.btn_2);
-        joinBtn.setOnClickListener(new View.OnClickListener(){
+        joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 login(v);
             }
         });
         return rootView;
     }
-    
-    private void login(View v){
-        TextView accountView =  rootView.findViewById(R.id.account);
+
+    private void login(View v) {
+        TextView accountView = rootView.findViewById(R.id.account);
         String account = accountView.getText().toString();
-        if (TextUtils.isEmpty(account)){
+        if (TextUtils.isEmpty(account)) {
             account = accountView.getHint().toString();
         }
-
-        TextView passwordView =  rootView.findViewById(R.id.password);
-        String password =  passwordView.getText().toString();
-        if (password.equals("")){
-            password =  passwordView.getHint().toString();
+        TextView passwordView = rootView.findViewById(R.id.password);
+        String password = passwordView.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            password = passwordView.getHint().toString();
         }
         showLoading();
-        HWMSdk.getOpenApi(getActivity().getApplication()).login(account, password, new HwmCallback<LoginResult>() {
+        LoginParam loginParam = new LoginParam()
+                .setLoginAuthType(LoginAuthType.Account_And_Password)
+                .setAccount(account)
+                .setPassword(password);
+        HWMSdk.getOpenApi(getActivity().getApplication()).login(loginParam, new HwmCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 dismissLoading();
-                if (loginResult != null ) {
+                dismiss();
+                if (loginResult != null) {
                     DemoUtil.showToast(getContext(), "登录成功" + loginResult.getUserUuid());
                 } else {
                     DemoUtil.showToast(getContext(), "您已经登录");
@@ -65,6 +72,7 @@ public class NormalLoginFragment extends BaseDialogFragment {
             @Override
             public void onFailed(int retCode, String desc) {
                 dismissLoading();
+                dismiss();
                 Error error = HWMBizSdk.getLoginApi().convertErrorCodeToUI(retCode);
                 String errorTip = getLoginErrTips(error);
                 new BaseDialogBuilder(getActivity())
@@ -76,8 +84,8 @@ public class NormalLoginFragment extends BaseDialogFragment {
         });
     }
 
-    private String getLoginErrTips(Error error){
-        switch (error){
+    private String getLoginErrTips(Error error) {
+        switch (error) {
             case Login_ERR_GENERAL:
                 return getString(R.string.login_err_general);
             case Login_ERR_PARAM_ERROR:
@@ -99,7 +107,7 @@ public class NormalLoginFragment extends BaseDialogFragment {
             case Login_ERR_SERVER_UPGRADING:
                 return getString(R.string.login_err_server_upgrade);
             case Login_ERR_NEED_MODIFY_PASSWORD:
-                return  getString(R.string.login_err_fist_login_change_password);
+                return getString(R.string.login_err_fist_login_change_password);
         }
         return getString(R.string.login_err_general);
     }
